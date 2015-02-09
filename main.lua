@@ -1,9 +1,9 @@
-require("lib/orea")
+require("orea/orea")
 
 function love.load()
+	math.randomseed(os.time())
 	orea.loadLibs()
 	res = orea.buildRes()
-	screen = orea.screen
 	graphics = love.graphics
 	mouse = love.mouse
 	keyboard = love.keyboard

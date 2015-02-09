@@ -9,7 +9,7 @@ animation.__call = function (_image, _w, _h, _rw, _rh, _f, _d, _m)
 	a.image = res:load("sprite", _image)
 end
 
-function orea.newAnimation(_image, _w, _h, _rw, _rh, _f, _d, _m)
+function newAnimation(_image, _w, _h, _rw, _rh, _f, _d, _m)
 	local a = {}
 	a.__index = a
 	a.image = love.graphics.newImage(_image)

@@ -18,7 +18,6 @@ function orea.buildRes()
 		if perc > _perc then _perc = perc; io.write("...".._perc) end
 	end
 	print("% - Done")
-	orea.printTable(res)
 
 	res.__index = res
 	res.allowDuplicates = false
@@ -39,12 +38,12 @@ function orea.buildRes()
 		elseif typ == "sprite" then
 			local asset = self.sprites[name]
 			if self.allowDuplicates and asset.data then
-				asset["data"..asset.users] = orea.newAnimation(asset.path,select(1,...),select(2,...),select(3,...),
+				asset["data"..asset.users] = newAnimation(asset.path,select(1,...),select(2,...),select(3,...),
 											select(4,...),select(5,...),select(6,...),select(7,...))
 				return asset["data"..asset.users]
 			end
 			if asset.data == nil then
-				asset.data = orea.newAnimation(asset.path,select(1,...),select(2,...),select(3,...),
+				asset.data = newAnimation(asset.path,select(1,...),select(2,...),select(3,...),
 											select(4,...),select(5,...),select(6,...),select(7,...))
 			end
 			asset.users = asset.users + 1
