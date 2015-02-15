@@ -26,6 +26,7 @@ function orea.buildRes()
 		local args = {...}
 		if typ == "image" then
 			local asset = self.images[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			if self.allowDuplicates and asset.data then
 				asset["data"..asset.users] = love.graphics.newImage(asset.path)
 				return asset["data"..asset.users]
@@ -37,6 +38,7 @@ function orea.buildRes()
 			return asset.data
 		elseif typ == "sprite" then
 			local asset = self.sprites[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			if self.allowDuplicates and asset.data then
 				asset["data"..asset.users] = newAnimation(asset.path,select(1,...),select(2,...),select(3,...),
 											select(4,...),select(5,...),select(6,...),select(7,...))
@@ -50,6 +52,7 @@ function orea.buildRes()
 			return asset.data
 		elseif typ == "sound" then
 			local asset = self.sounds[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			if self.allowDuplicates and asset.data then
 				asset["data"..asset.users] = love.audio.newSource(asset.path, "static")
 				return asset["data"..asset.users]
@@ -61,6 +64,7 @@ function orea.buildRes()
 			return asset.data
 		elseif typ == "music" then
 			local asset = self.sounds[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			if self.allowDuplicates and asset.data then
 				asset["data"..asset.users] = love.audio.newSource(asset.path, "stream")
 				return asset["data"..asset.users]
@@ -72,6 +76,7 @@ function orea.buildRes()
 			return asset.data
 		elseif typ == "quadsheet" then
                     local asset = self.quads[name]
+                    if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
                     if asset.data == nil then
                             asset.data = {}
                             local file = love.filesystem.read(asset.path)
@@ -95,18 +100,22 @@ function orea.buildRes()
 	function res:unload(typ, name)
 		if typ == "image" then
 			local asset = self.images[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			asset.users = math.max(0,asset.users - 1)
 			if asset.users == 0 then asset.data = nil end
 		elseif typ == "sprite" then
 			local asset = self.sprites[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			asset.users = math.max(0,asset.users - 1)
 			if asset.users == 0 then asset.data = nil end
 		elseif typ == "sound" then
 			local asset = self.sounds[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			asset.users = math.max(0,asset.users - 1)
 			if asset.users == 0 then asset.data = nil end
 		elseif typ == "music" then
 			local asset = self.sounds[name]
+			if not asset then print(ansicolors.red.."Unable to locate asset. Maybe you used the wrong name?"..ansicolors.clear); return end
 			asset.users = math.max(0,asset.users - 1)
 			if asset.users == 0 then asset.data = nil end
 		end

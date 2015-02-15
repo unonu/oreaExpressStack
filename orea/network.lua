@@ -68,11 +68,11 @@ function server:update(dt)
 end
 
 function server:reply(command, data)
-	if s.commands[command] then
+	if self.commands[command] then
 		local args = expandTable(data)
 		args.ip = self.request.ip
 		args.port = self.request.port
-		local success, e = pcall(s.commands[command], self, args)
+		local success, e = pcall(self.commands[command], self, args)
 		if success then self.connection:sendto( compressTable(e),
 												args.ip,
 												args.port)
@@ -104,9 +104,10 @@ function client.make(address,port)
 
 	c.commands = {}
 	c.requests = {}
-	s.commands["????"] = function (self, a) 
+	c.commands["????"] = function (self, a) 
 		if not self.id then
-			self.id = tostring(math.random(1,9999)).. tostring(a[1]):fillJustify(4,'0')
+			self.id = tostring(math.random(1,9999)):fillJustify(4,'0')..
+						tostring(a[1]):fillJustify(4,'0')
 		end
 	end 
 
@@ -117,6 +118,8 @@ function client.make(address,port)
 end
 
 function client:update(dt)
+	self:recieve()
+
 	self.dt = self.dt + dt
 	if self.dt > self.updateRate then
 		for i=1, #self.requests do
@@ -142,8 +145,9 @@ function client:request(command, ...)
 end
 
 function client:receive()
+	local data = nil
 	repeat
-		data = udp:receive()
+		data = self.connection:receive()
 		if data then
 			local command = data:sub(1,4)
 			local args = {}
